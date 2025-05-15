@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8" />
+  <title>Legal Chatbot</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', sans-serif;
+      background: #f4f4f5;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .chat-container {
+      background: #fff;
+      width: 95%;
+      max-width: 700px;
+      height: 90vh;
+      display: flex;
+      flex-direction: column;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      overflow: hidden;
+    }
+
+    .chat-header {
+      text-align: center;
+      background-color: #4f46e5;
+      color: white;
+      padding: 16px;
+      font-size: 20px;
+    }
+
+    .chat-box {
+      flex-grow: 1;
+      overflow-y: auto;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      background: #fafafa;
+    }
+
+    .message {
+      max-width: 80%;
+      padding: 12px 16px;
+      border-radius: 16px;
+      font-size: 15px;
+      line-height: 1.4;
+    }
+
+    .user-msg {
+      align-self: flex-end;
+      background-color: #dbeafe;
+      color: #1e40af;
+    }
+
+    .bot-msg {
+      align-self: flex-start;
+      background-color: #f3f4f6;
+      color: #111827;
+    }
+
+    .chat-footer {
+      display: flex;
+      padding: 16px;
+      border-top: 1px solid #ddd;
+      background: #fff;
+      gap: 10px;
+    }
+
+    .chat-footer input[type="text"] {
+      flex-grow: 1;
+      padding: 10px;
+      font-size: 15px;
+      border: 1px solid #ccc;
+      border-radius: 8px;
+    }
+
+    .chat-footer button {
+      padding: 10px 16px;
+      background-color: #4f46e5;
+      color: white;
+      font-size: 15px;
+      border: none;
+      border-radius: 8px;
+      cursor: pointer;
+    }
+
+    .language-select {
+      display: flex;
+      gap: 8px;
+      font-size: 14px;
+      padding: 8px 16px;
+    }
+
+    .footer-note {
+      text-align: center;
+      font-size: 12px;
+      padding: 8px;
+      color: #6b7280;
+    }
+  </style>
+</head>
+
+<body>
+  <div class="chat-container">
+    <div class="chat-header">⚖️ Ask the Legal Chatbot</div>
+
+    <div class="chat-box" id="chatBox">
+      <!-- Chat messages will be appended here -->
+    </div>
+
+    <form id="chatForm" class="chat-footer">
+      <input type="text" id="user_input" placeholder="Type your question..." required />
+      <button type="submit">Send</button>
+    </form>
+
+    <div class="language-select" style="justify-content: center;">
+      <label><input type="radio" name="language" value="en" checked> English</label>
+      <label><input type="radio" name="language" value="gcr"> Creole</label>
+      <label><input type="radio" name="language" value="both"> Both</label>
+    </div>
+
+    <div class="footer-note">🌐 Creole translation | 💬 Chat history | ✨ Typing animation</div>
+  </div>
+
+  <script>
+    const chatBox = document.getElementById("chatBox");
+    const chatForm = document.getElementById("chatForm");
+
+    function appendMessage(type, text) {
+      const div = document.createElement("div");
+      div.className = `message ${type}-msg`;
+      chatBox.appendChild(div);
+
+      if (type === "bot") {
+        div.innerHTML = text.replace(/\n/g, "<br>");
+      } else {
+        div.innerHTML = `<strong>You:</strong> ${text}`;
+      }
+
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+
+    chatForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const userInput = document.getElementById("user_input").value;
+      const language = document.querySelector('input[name="language"]:checked').value;
+
+      appendMessage("user", userInput);
+
+      const formData = new FormData();
+      formData.append("user_input", userInput);
+      formData.append("language", language);
+
+      document.getElementById("user_input").value = "";
+
+      const response = await fetch("/ask", {
+        method: "POST",
+        body: formData,
+      });
+
+      const data = await response.json();
+      appendMessage("bot", data.bot);
+    });
+  </script>
+</body>
+
+</html>
