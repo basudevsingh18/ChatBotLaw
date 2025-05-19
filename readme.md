@@ -108,13 +108,82 @@ pip install -r requirements.txt
 
 ---
 
-## 🧹 Useful Commands
+## 🐳 Docker & Development Setup
 
-| Task                       | Command                                           |
-|----------------------------|---------------------------------------------------|
-| Build & start containers   | `docker-compose up --build`                      |
-| Pull & run Mistral model   | `docker exec -it legal-chatbot-ollama-1 ollama run mistral` |
-| Stop containers            | `docker-compose down`                            |
+This project uses **Docker Compose** to manage two services:
+
+- 🧠 `ollama` – runs the Mistral model locally via REST API  
+- 💬 `app` – your Flask-based legal chatbot  
+
+---
+
+### 📦 Prerequisites
+
+- Docker Desktop  
+- Docker Compose (v2+)  
+- Internet connection (first-time model pull only)  
+
+---
+
+### 🚀 Quick Start
+
+```
+docker-compose up --build
+```
+
+Then open: [http://localhost:5000](http://localhost:5000)
+
+Ollama will auto-run the `mistral` model. The Flask app supports hot-reloading for fast dev cycles.
+
+---
+
+### 🔁 Fast Iteration (No Rebuilds Needed)
+
+Thanks to volume mounting:
+
+- Code & template changes (e.g., `chatbot.py`, `chat.html`, `legal_qa.csv`) auto-reload
+- No rebuild or restart needed in most cases
+
+To quickly restart just the app:
+
+```
+docker-compose restart app
+```
+
+---
+
+### 🧠 Model Persistence
+
+- The Mistral model is cached in a Docker volume (`ollama_models`)
+- It is pulled once, even if you restart or rebuild
+- Ollama won’t re-download it every time
+
+---
+
+### ⚙️ Key Dev Config Highlights
+
+```yaml
+volumes:
+  - .:/app                   # Live-reload Flask code
+command:
+  flask run --host=0.0.0.0 --port=5000
+```
+
+---
+
+### 💡 Common Commands
+
+| Task                        | Command                          |
+|-----------------------------|-----------------------------------|
+| Start everything            | `docker-compose up --build`      |
+| Restart only the app        | `docker-compose restart app`     |
+| Stop all containers         | `docker-compose down`            |
+| Rebuild just the Flask app  | `docker-compose build app`       |
+| View logs                   | `docker-compose logs -f app`     |
+
+---
+
+For production: use a WSGI server like **Gunicorn** instead of the Flask dev server.
 
 ---
 
