@@ -3,55 +3,80 @@
 
 <head>
   <meta charset="UTF-8" />
-  <title>Legal Chatbot</title>
+  <title>Legal Chat</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <style>
-    body {
+    * {
+      box-sizing: border-box;
       margin: 0;
-      font-family: 'Segoe UI', sans-serif;
-      background: #f4f4f5;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
+      padding: 0;
     }
 
-    .chat-container {
-      background: #fff;
-      width: 95%;
-      max-width: 700px;
-      height: 90vh;
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #eef2ff, #fdf4ff);
       display: flex;
       flex-direction: column;
-      border-radius: 12px;
-      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
-      overflow: hidden;
+      min-height: 100vh;
+      animation: fadeIn 0.8s ease-in;
     }
 
-    .chat-header {
-      text-align: center;
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(10px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    header {
       background-color: #4f46e5;
       color: white;
-      padding: 16px;
-      font-size: 20px;
+      padding: 20px;
+      text-align: center;
+      font-size: 1.8rem;
+      font-weight: bold;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    }
+
+    main {
+      flex: 1;
+      display: flex;
+      justify-content: center;
+      padding: 20px;
+    }
+
+    .chat-area {
+      background: white;
+      width: 100%;
+      max-width: 900px;
+      border-radius: 16px;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.05);
+      animation: popIn 0.6s ease;
+    }
+
+    @keyframes popIn {
+      from { transform: scale(0.98); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
     }
 
     .chat-box {
       flex-grow: 1;
       overflow-y: auto;
-      padding: 20px;
+      padding: 24px;
+      background: #f9fafb;
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      background: #fafafa;
+      gap: 16px;
     }
 
     .message {
-      max-width: 80%;
-      padding: 12px 16px;
+      max-width: 75%;
+      padding: 14px 18px;
       border-radius: 16px;
       font-size: 15px;
-      line-height: 1.4;
+      line-height: 1.5;
+      animation: bubbleFade 0.3s ease-in;
     }
 
     .user-msg {
@@ -66,69 +91,86 @@
       color: #111827;
     }
 
+    @keyframes bubbleFade {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
     .chat-footer {
-      display: flex;
       padding: 16px;
-      border-top: 1px solid #ddd;
+      border-top: 1px solid #e5e7eb;
       background: #fff;
-      gap: 10px;
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
     }
 
     .chat-footer input[type="text"] {
-      flex-grow: 1;
-      padding: 10px;
-      font-size: 15px;
-      border: 1px solid #ccc;
+      flex: 1;
+      padding: 12px;
+      font-size: 16px;
+      border: 1px solid #cbd5e1;
       border-radius: 8px;
     }
 
     .chat-footer button {
-      padding: 10px 16px;
+      padding: 12px 20px;
       background-color: #4f46e5;
       color: white;
       font-size: 15px;
       border: none;
       border-radius: 8px;
       cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .chat-footer button:hover {
+      background-color: #4338ca;
     }
 
     .language-select {
       display: flex;
-      gap: 8px;
+      gap: 16px;
       font-size: 14px;
-      padding: 8px 16px;
+      padding: 12px 20px;
+      justify-content: center;
+      background: #f8fafc;
+      border-top: 1px solid #e5e7eb;
     }
 
     .footer-note {
       text-align: center;
-      font-size: 12px;
-      padding: 8px;
+      font-size: 13px;
+      padding: 10px;
       color: #6b7280;
+      background: #f9fafb;
     }
   </style>
 </head>
 
 <body>
-  <div class="chat-container">
-    <div class="chat-header">⚖️ Ask the Legal Chatbot</div>
+  <header>⚖️ Legal Chatbot – Chat Interface</header>
 
-    <div class="chat-box" id="chatBox">
-      <!-- Chat messages will be appended here -->
+  <main>
+    <div class="chat-area">
+      <div class="chat-box" id="chatBox">
+        <!-- Chat messages -->
+      </div>
+
+      <form id="chatForm" class="chat-footer">
+        <input type="text" id="user_input" placeholder="Type your legal question..." required />
+        <button type="submit">Send</button>
+      </form>
+
+      <div class="language-select">
+        <label><input type="radio" name="language" value="en" checked> English</label>
+        <label><input type="radio" name="language" value="gcr"> Creole</label>
+        <label><input type="radio" name="language" value="both"> Both</label>
+      </div>
+
+      <div class="footer-note">🇬🇾 Legal info is for guidance only | 🧠 Powered by Mistral | 🌐 English & Creole Support</div>
     </div>
-
-    <form id="chatForm" class="chat-footer">
-      <input type="text" id="user_input" placeholder="Type your question..." required />
-      <button type="submit">Send</button>
-    </form>
-
-    <div class="language-select" style="justify-content: center;">
-      <label><input type="radio" name="language" value="en" checked> English</label>
-      <label><input type="radio" name="language" value="gcr"> Creole</label>
-      <label><input type="radio" name="language" value="both"> Both</label>
-    </div>
-
-    <div class="footer-note">🌐 Creole translation | 💬 Chat history | ✨ Typing animation</div>
-  </div>
+  </main>
 
   <script>
     const chatBox = document.getElementById("chatBox");
@@ -137,14 +179,8 @@
     function appendMessage(type, text) {
       const div = document.createElement("div");
       div.className = `message ${type}-msg`;
+      div.innerHTML = type === "bot" ? text.replace(/\n/g, "<br>") : `<strong>You:</strong> ${text}`;
       chatBox.appendChild(div);
-
-      if (type === "bot") {
-        div.innerHTML = text.replace(/\n/g, "<br>");
-      } else {
-        div.innerHTML = `<strong>You:</strong> ${text}`;
-      }
-
       chatBox.scrollTop = chatBox.scrollHeight;
     }
 
@@ -154,12 +190,11 @@
       const language = document.querySelector('input[name="language"]:checked').value;
 
       appendMessage("user", userInput);
+      document.getElementById("user_input").value = "";
 
       const formData = new FormData();
       formData.append("user_input", userInput);
       formData.append("language", language);
-
-      document.getElementById("user_input").value = "";
 
       const response = await fetch("/ask", {
         method: "POST",

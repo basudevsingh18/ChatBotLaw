@@ -5,6 +5,10 @@ app = Flask(__name__)
 app.secret_key = 'your_secret_key'
 
 @app.route('/')
+def home():
+    return render_template('index.html')
+
+@app.route('/chat')
 def chat():
     return render_template('chat.html', chat_history=session.get('chat_history', []))
 

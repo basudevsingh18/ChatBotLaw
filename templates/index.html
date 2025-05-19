@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>Legal Chatbot | Your Justice Companion</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #e0e7ff, #fdf2f8);
+      color: #1e293b;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+      overflow: hidden;
+      animation: fadeIn 1.5s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      margin-bottom: 1rem;
+      color: #4f46e5;
+      animation: slideUp 0.8s ease-out;
+    }
+
+    @keyframes slideUp {
+      from { transform: translateY(40px); opacity: 0; }
+      to { transform: translateY(0); opacity: 1; }
+    }
+
+    p {
+      font-size: 1.2rem;
+      color: #334155;
+      max-width: 600px;
+      margin-bottom: 2rem;
+      animation: fadeIn 1.2s ease-in-out;
+    }
+
+    .cta-button {
+      background-color: #4f46e5;
+      color: white;
+      border: none;
+      padding: 14px 28px;
+      font-size: 1rem;
+      border-radius: 10px;
+      cursor: pointer;
+      box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+      transition: transform 0.2s ease, background-color 0.3s ease;
+      animation: popUp 1s ease-in;
+    }
+
+    .cta-button:hover {
+      background-color: #4338ca;
+      transform: translateY(-2px);
+    }
+
+    @keyframes popUp {
+      from { transform: scale(0.9); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .footer {
+      position: absolute;
+      bottom: 12px;
+      font-size: 0.9rem;
+      color: #64748b;
+    }
+
+    .logo {
+      font-size: 4rem;
+      margin-bottom: 10px;
+      animation: fadeIn 2s ease-in;
+    }
+  </style>
+</head>
+<body>
+  <div class="logo">⚖️</div>
+  <h1>Welcome to Legal Chatbot GY</h1>
+  <p>Your AI-powered legal assistant for everyday questions about Guyanese law. Bilingual support. Offline LLMs. Simple answers. Just ask.</p>
+  <a href="/chat">
+    <button class="cta-button">💬 Start Chat</button>
+  </a>
+  <div class="footer">🇬🇾 Powered by Mistral via Ollama | Built by Basudev Singh</div>
+</body>
+</html>
